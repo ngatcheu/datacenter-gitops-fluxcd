@@ -11,5 +11,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./fluxcd/gitops-apps/apps/cluster-rancher
+  path: ./apps/cluster-rancher
   prune: true

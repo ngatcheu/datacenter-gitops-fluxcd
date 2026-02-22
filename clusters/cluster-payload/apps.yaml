@@ -10,5 +10,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./fluxcd/gitops-apps/apps/cluster-payload
+  path: ./apps/cluster-payload
   prune: true

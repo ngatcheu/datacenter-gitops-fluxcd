@@ -11,7 +11,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./fluxcd/gitops-apps/infrastructure/base/metallb
+  path: ./infrastructure/base/metallb
   prune: true
   wait: true
 ---
@@ -29,7 +29,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./fluxcd/gitops-apps/infrastructure/cluster-payload/metallb-config
+  path: ./infrastructure/cluster-payload/metallb-config
   prune: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -46,5 +46,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./fluxcd/gitops-apps/infrastructure/cluster-payload
+  path: ./infrastructure/cluster-payload
   prune: true
