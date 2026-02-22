@@ -1,0 +1,26 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: rancher
+  namespace: cattle-system
+spec:
+  interval: 1h
+  releaseName: rancher
+  targetNamespace: cattle-system
+  chart:
+    spec:
+      chart: rancher
+      sourceRef:
+        kind: HelmRepository
+        name: rancher-stable
+        namespace: flux-system
+      version: 2.13.1
+  values:
+    privateCA: true
+    hostname: rancher.homelab.local
+    bootstrapPassword: changeme
+    ingress:
+      enabled: true
+      tls:
+        source: secrets 

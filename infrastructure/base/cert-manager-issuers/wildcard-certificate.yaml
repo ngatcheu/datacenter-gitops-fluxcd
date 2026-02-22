@@ -1,0 +1,27 @@
+---
+# Certificat wildcard pour *.home.lab
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-homelab-tls
+  namespace: cert-manager
+spec:
+  secretName: wildcard-homelab-tls-secret
+  duration: 8760h  # 1 an
+  renewBefore: 720h  # Renouveler 30 jours avant expiration
+  subject:
+    organizations:
+      - Home Lab
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - "*.home.lab"
+    - "home.lab"
+  issuerRef:
+    name: homelab-ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io

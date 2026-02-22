@@ -1,0 +1,16 @@
+---
+# ConfigMap pour la configuration Adminer
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: adminer-config
+  namespace: adminer
+data:
+  # Serveur par défaut (pré-rempli dans le formulaire)
+  # ADMINER_DEFAULT_SERVER: "postgres.homelab.local"
+
+  # Type de driver par défaut (mysql, pgsql, sqlite, oracle, mssql, mongo)
+  # ADMINER_DEFAULT_DB_DRIVER: "pgsql"
+
+  # Design Adminer (pepa-linha, hydra, nette, etc.)
+  ADMINER_DESIGN: "pepa-linha"

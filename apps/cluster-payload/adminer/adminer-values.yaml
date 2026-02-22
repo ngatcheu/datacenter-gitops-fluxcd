@@ -1,0 +1,44 @@
+---
+# HelmRelease pour déployer Adminer sur cluster-payload (homelab)
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: adminer
+  namespace: adminer
+spec:
+  interval: 5m
+  releaseName: adminer
+  chart:
+    spec:
+      chart: adminer
+      version: 0.1.8
+      sourceRef:
+        kind: HelmRepository
+        name: startechnica
+        namespace: flux-system
+      interval: 1m
+  values:
+    # Configuration Auth - Utilisation du secret existant
+    auth:
+      existingSecret: "adminer-secrets"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+    # Configuration Ingress
+    ingress:
+      enabled: true
+      ingressClassName: "nginx"
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      hostname: adminer.homelab.local
+      path: /
+      pathType: Prefix
+      tls: true
+
+    # Configuration via ConfigMap
+    extraEnvVarsCM: "adminer-config"

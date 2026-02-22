@@ -1,0 +1,20 @@
+---
+# Pool d'adresses IP pour cluster-payload
+# Plage différente de cluster-rancher (192.168.1.200-210)
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: payload-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - 192.168.1.220-192.168.1.230
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: payload-l2
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - payload-pool

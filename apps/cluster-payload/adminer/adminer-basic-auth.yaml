@@ -1,0 +1,13 @@
+---
+# Secret pour l'authentification Basic Auth d'Adminer
+apiVersion: v1
+kind: Secret
+metadata:
+  name: adminer-basic-auth
+  namespace: adminer
+type: Opaque
+data:
+  # Format: username:hashed_password (encodé en base64)
+  # Username: admin / Password: admin123
+  # Généré avec: htpasswd -nb admin admin123 | base64
+  auth: YWRtaW46JGFwcjEkSGxWb1h2VWkkSldOY3VKdnRnWVlrUVB5N21WdW9WLwo=
