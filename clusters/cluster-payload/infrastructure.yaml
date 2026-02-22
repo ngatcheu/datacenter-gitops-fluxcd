@@ -40,6 +40,7 @@ metadata:
 spec:
   dependsOn:
     - name: metallb
+    - name: metallb-config
   interval: 1h
   retryInterval: 1m
   timeout: 5m
