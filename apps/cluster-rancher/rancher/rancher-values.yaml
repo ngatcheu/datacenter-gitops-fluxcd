@@ -6,7 +6,7 @@ metadata:
   namespace: cattle-system
 spec:
   values:
-    privateCA: false
+    privateCA: true
     hostname: rancher.homelab.local
     bootstrapPassword: change123
     ingress:

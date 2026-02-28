@@ -15,7 +15,7 @@ spec:
         kind: HelmRepository
         name: rancher-stable
         namespace: flux-system
-      version: 2.10.2
+      version: 2.13.3
   values:
     privateCA: true
     hostname: rancher.homelab.local
@@ -23,4 +23,13 @@ spec:
     ingress:
       enabled: true
       tls:
-        source: secrets 
+        source: secrets
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+        ephemeral-storage: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+        ephemeral-storage: 1Gi
