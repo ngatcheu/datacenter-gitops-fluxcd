@@ -6,6 +6,7 @@ metadata:
   namespace: cattle-system
 spec:
   interval: 1h
+  timeout: 15m
   releaseName: rancher
   targetNamespace: cattle-system
   chart:
