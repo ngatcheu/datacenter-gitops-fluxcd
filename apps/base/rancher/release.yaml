@@ -6,7 +6,7 @@ metadata:
   namespace: cattle-system
 spec:
   interval: 1h
-  timeout: 15m
+  timeout: 45m
   releaseName: rancher
   targetNamespace: cattle-system
   chart:
@@ -29,8 +29,8 @@ spec:
       requests:
         cpu: 250m
         memory: 512Mi
-        ephemeral-storage: 512Mi
+        ephemeral-storage: 1Gi
       limits:
         cpu: 1000m
-        memory: 2Gi
-        ephemeral-storage: 4Gi
+        memory: 4Gi
+        ephemeral-storage: 10Gi
