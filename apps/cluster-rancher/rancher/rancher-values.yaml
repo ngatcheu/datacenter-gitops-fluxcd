@@ -11,4 +11,4 @@ spec:
     bootstrapPassword: change123
     ingress:
       tls:
-        source: rancher
+        source: secrets
