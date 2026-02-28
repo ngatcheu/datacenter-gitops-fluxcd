@@ -7,6 +7,7 @@ spec:
   dependsOn:
     - name: cert-manager
     - name: metallb-config
+    - name: rancher-tls
   interval: 5m
   sourceRef:
     kind: GitRepository

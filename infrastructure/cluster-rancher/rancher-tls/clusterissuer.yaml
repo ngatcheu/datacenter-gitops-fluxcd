@@ -1,0 +1,36 @@
+---
+# Issuer bootstrap self-signed pour générer la CA
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-issuer
+spec:
+  selfSigned: {}
+---
+# CA auto-signée (valide 10 ans)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: rancher-ca
+  namespace: cert-manager
+spec:
+  isCA: true
+  commonName: rancher-homelab-ca
+  secretName: rancher-ca-tls
+  duration: 87600h
+  privateKey:
+    algorithm: RSA
+    size: 4096
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+---
+# Issuer qui utilise la CA pour signer les certificats Rancher
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: rancher-ca-issuer
+spec:
+  ca:
+    secretName: rancher-ca-tls

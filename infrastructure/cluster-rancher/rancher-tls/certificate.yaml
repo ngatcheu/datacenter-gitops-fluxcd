@@ -1,0 +1,17 @@
+---
+# Certificat TLS pour rancher.homelab.local
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: rancher-tls
+  namespace: cattle-system
+spec:
+  secretName: tls-rancher-ingress
+  duration: 8760h
+  renewBefore: 720h
+  dnsNames:
+    - rancher.homelab.local
+  issuerRef:
+    name: rancher-ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
