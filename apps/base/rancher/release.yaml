@@ -27,7 +27,7 @@ spec:
         source: secrets
     resources:
       requests:
-        cpu: 250m
+        cpu: 100m
         memory: 512Mi
         ephemeral-storage: 1Gi
       limits:

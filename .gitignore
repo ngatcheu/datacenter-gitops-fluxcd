@@ -1,0 +1,8 @@
+# === Environnement ===
+.env
+auto.vars
+auto.tfvars
+
+# === OS ===
+.DS_Store
+Thumbs.db
