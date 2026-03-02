@@ -24,7 +24,7 @@ spec:
     ingress:
       enabled: true
       tls:
-        source: secrets
+        source: secret
     resources:
       requests:
         cpu: 100m
