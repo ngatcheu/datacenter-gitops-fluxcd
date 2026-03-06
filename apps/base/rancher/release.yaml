@@ -18,7 +18,6 @@ spec:
         namespace: flux-system
       version: 2.13.3
   values:
-    privateCA: true
     hostname: rancher.homelab.local
     bootstrapPassword: changeme
     ingress:
