@@ -8,6 +8,9 @@ spec:
   values:
     hostname: rancher.homelab.local
     bootstrapPassword: change123
+    startupProbe:
+      failureThreshold: 60
+      periodSeconds: 10
     ingress:
       ingressClassName: nginx
       tls:
