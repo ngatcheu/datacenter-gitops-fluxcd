@@ -7,16 +7,16 @@ metadata:
 spec:
   selfSigned: {}
 ---
-# CA auto-signée (valide 10 ans)
+# CA auto-signée dans cattle-system — devient le secret tls-ca requis par Rancher (privateCA: true)
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: rancher-ca
-  namespace: cert-manager
+  namespace: cattle-system
 spec:
   isCA: true
   commonName: rancher-homelab-ca
-  secretName: rancher-ca-tls
+  secretName: tls-ca
   duration: 87600h
   privateKey:
     algorithm: RSA
@@ -26,11 +26,12 @@ spec:
     kind: ClusterIssuer
     group: cert-manager.io
 ---
-# Issuer qui utilise la CA pour signer les certificats Rancher
+# Issuer namespace-scoped dans cattle-system pour signer les certificats Rancher
 apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
+kind: Issuer
 metadata:
   name: rancher-ca-issuer
+  namespace: cattle-system
 spec:
   ca:
-    secretName: rancher-ca-tls
+    secretName: tls-ca

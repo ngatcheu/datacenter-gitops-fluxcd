@@ -13,5 +13,5 @@ spec:
     - rancher.homelab.local
   issuerRef:
     name: rancher-ca-issuer
-    kind: ClusterIssuer
+    kind: Issuer
     group: cert-manager.io
