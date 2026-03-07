@@ -5,7 +5,7 @@ metadata:
   name: rancher
   namespace: cattle-system
 spec:
-  interval: 1h
+  interval: 5m
   timeout: 45m
   releaseName: rancher
   targetNamespace: cattle-system
