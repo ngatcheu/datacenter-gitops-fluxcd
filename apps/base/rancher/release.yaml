@@ -20,6 +20,7 @@ spec:
   values:
     hostname: rancher.homelab.local
     bootstrapPassword: changeme
+    privateCA: true
     ingress:
       enabled: true
       tls:

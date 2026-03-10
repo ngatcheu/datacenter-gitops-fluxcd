@@ -11,6 +11,7 @@ spec:
     startupProbe:
       failureThreshold: 60
       periodSeconds: 10
+    privateCA: true
     ingress:
       ingressClassName: nginx
       tls:
