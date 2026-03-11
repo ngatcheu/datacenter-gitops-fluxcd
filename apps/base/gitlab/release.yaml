@@ -30,7 +30,7 @@ spec:
         tls:
           enabled: false
     certmanager:
-      install: false
+      installCRDs: false
     nginx-ingress:
       enabled: false
     prometheus:
