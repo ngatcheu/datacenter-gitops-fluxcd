@@ -29,6 +29,7 @@ spec:
         class: nginx
         tls:
           enabled: false
+    installCertmanager: false
     certmanager:
       installCRDs: false
     nginx-ingress:
