@@ -41,10 +41,16 @@ spec:
         patches:
           - target:
               kind: Deployment
-              name: n8n-main
             patch: |
-              - op: add
-                path: /spec/template/spec/containers/0/env/-
-                value:
-                  name: N8N_SECURE_COOKIE
-                  value: "false"
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: unused
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: n8n
+                        env:
+                          - name: N8N_SECURE_COOKIE
+                            value: "false"
