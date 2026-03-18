@@ -23,6 +23,8 @@ spec:
     main:
       count: 1
       editorBaseUrl: "http://n8n.homelab.local"
+      env:
+        N8N_SECURE_COOKIE: "false"
       persistence:
         enabled: true
         size: 5Gi
