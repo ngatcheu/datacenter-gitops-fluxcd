@@ -23,8 +23,6 @@ spec:
     main:
       count: 1
       editorBaseUrl: "http://n8n.homelab.local"
-      env:
-        N8N_SECURE_COOKIE: "false"
       persistence:
         enabled: true
         size: 5Gi
@@ -38,3 +36,15 @@ spec:
       name: http
       port: 5678
       type: ClusterIP
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: n8n-main
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/env/-
+                value:
+                  name: N8N_SECURE_COOKIE
+                  value: "false"
