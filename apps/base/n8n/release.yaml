@@ -10,19 +10,29 @@ spec:
   chart:
     spec:
       chart: n8n
-      version: "0.*"
+      version: "1.16.31"
       sourceRef:
         kind: HelmRepository
         name: community-charts
         namespace: flux-system
       interval: 1m
   values:
-    replicaCount: 1
-    persistence:
-      enabled: true
-      size: 5Gi
+    timezone: Europe/Paris
+    diagnostics:
+      enabled: false
+    main:
+      count: 1
+      editorBaseUrl: "http://n8n.homelab.local"
+      persistence:
+        enabled: true
+        size: 5Gi
+    worker:
+      count: 0
+    webhook:
+      count: 0
     ingress:
       enabled: false
-    env:
-      GENERIC_TIMEZONE: "Europe/Paris"
-      N8N_PROTOCOL: "http"
+    service:
+      name: http
+      port: 5678
+      type: ClusterIP
