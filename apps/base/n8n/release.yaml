@@ -27,9 +27,9 @@ spec:
         enabled: true
         size: 5Gi
     worker:
-      count: 0
+      count: 1
     webhook:
-      count: 0
+      count: 1
     ingress:
       enabled: false
     service:
