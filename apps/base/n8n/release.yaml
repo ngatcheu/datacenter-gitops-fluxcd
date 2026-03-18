@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: n8n
+  namespace: n8n
+spec:
+  interval: 5m
+  releaseName: n8n
+  chart:
+    spec:
+      chart: n8n
+      version: "0.*"
+      sourceRef:
+        kind: HelmRepository
+        name: community-charts
+        namespace: flux-system
+      interval: 1m
+  values:
+    replicaCount: 1
+    persistence:
+      enabled: true
+      size: 5Gi
+    ingress:
+      enabled: false
+    env:
+      GENERIC_TIMEZONE: "Europe/Paris"
+      N8N_PROTOCOL: "http"
