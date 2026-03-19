@@ -65,3 +65,21 @@ spec:
   path: ./infrastructure/cluster-payload/longhorn
   prune: true
   wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kube-prometheus-stack
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: longhorn
+  interval: 1h
+  retryInterval: 2m
+  timeout: 20m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/cluster-payload/kube-prometheus-stack
+  prune: true
+  wait: true

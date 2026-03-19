@@ -1,0 +1,32 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  values:
+    grafana:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - grafana.homelab.local
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    prometheus:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - prometheus.homelab.local
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    alertmanager:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - alertmanager.homelab.local
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
