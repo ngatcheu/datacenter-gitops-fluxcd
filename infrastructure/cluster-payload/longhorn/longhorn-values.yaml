@@ -12,3 +12,5 @@ spec:
       host: longhorn.homelab.local
       annotations:
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    monitoring:
+      enabled: true
