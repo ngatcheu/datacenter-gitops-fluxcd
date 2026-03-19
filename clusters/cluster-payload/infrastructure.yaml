@@ -57,11 +57,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  retryInterval: 1m
-  timeout: 10m
+  retryInterval: 2m
+  timeout: 25m
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/longhorn
+  path: ./infrastructure/cluster-payload/longhorn
   prune: true
   wait: true

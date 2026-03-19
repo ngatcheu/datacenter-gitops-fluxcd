@@ -15,10 +15,13 @@ spec:
         name: longhorn
         namespace: flux-system
       interval: 1m
+  timeout: 20m
   install:
     crds: CreateReplace
+    timeout: 20m
   upgrade:
     crds: CreateReplace
+    timeout: 20m
   values:
     networkPolicies:
       enabled: false

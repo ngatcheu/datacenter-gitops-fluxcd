@@ -1,0 +1,14 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  values:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      host: longhorn.homelab.local
+      annotations:
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
