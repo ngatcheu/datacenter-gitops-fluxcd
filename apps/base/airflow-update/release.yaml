@@ -28,6 +28,8 @@ spec:
   values:
     airflowVersion: "3.1.7"
     defaultAirflowTag: "3.1.7"
+    images:
+      migrationsWaitTimeout: 500
     executor: KubernetesExecutor
     redis:
       enabled: false
