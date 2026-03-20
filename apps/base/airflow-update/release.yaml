@@ -71,7 +71,7 @@ spec:
           cpu: 200m
           memory: 256Mi
         limits:
-          cpu: 2000m
+          cpu: 1000m
           memory: 1Gi
     apiServer:
       replicas: 1
@@ -80,7 +80,7 @@ spec:
           cpu: 200m
           memory: 256Mi
         limits:
-          cpu: 2000m
+          cpu: 1000m
           memory: 1Gi
     triggerer:
       resources:
@@ -88,7 +88,7 @@ spec:
           cpu: 200m
           memory: 256Mi
         limits:
-          cpu: 2000m
+          cpu: 1000m
           memory: 1Gi
     logs:
       persistence:
