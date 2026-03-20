@@ -15,11 +15,11 @@ spec:
         name: apache-airflow
         namespace: flux-system
       interval: 1m
-  timeout: 15m
+  timeout: 30m
   install:
-    timeout: 15m
+    timeout: 30m
   upgrade:
-    timeout: 15m
+    timeout: 30m
   values:
     airflowVersion: "3.1.7"
     defaultAirflowTag: "3.1.7"
@@ -30,7 +30,7 @@ spec:
       defaultUser:
         role: Admin
         username: admin
-        email: admin@homelab.local
+        email: nsfabrice2009@gmail.com
         firstName: Admin
         lastName: User
         password: admin
@@ -70,20 +70,8 @@ spec:
         limits:
           cpu: 500m
           memory: 1Gi
-    webserver:
+    apiServer:
       replicas: 1
-      resources:
-        requests:
-          cpu: 100m
-          memory: 256Mi
-        limits:
-          cpu: 500m
-          memory: 1Gi
-    workers:
-      persistence:
-        enabled: true
-        size: 10Gi
-        storageClassName: longhorn
       resources:
         requests:
           cpu: 100m
@@ -94,12 +82,12 @@ spec:
     logs:
       persistence:
         enabled: true
-        storageClassName: longhorn
+        storageClassName: longhorn-retain
         size: 4Gi
     dags:
       persistence:
         enabled: true
-        storageClassName: longhorn
+        storageClassName: longhorn-retain
         size: 3Gi
     ingress:
       web:

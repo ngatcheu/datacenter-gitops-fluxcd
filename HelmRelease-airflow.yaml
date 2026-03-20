@@ -90,16 +90,8 @@ spec:
         requests:
           cpu: 100m
           memory: 256Mi
-    webserver:
+    apiServer:
       replicas: 1
-      resources:
-        limits:
-          cpu: 500m
-          memory: 1Gi
-        requests:
-          cpu: 100m
-          memory: 256Mi
-    workers:
       resources:
         limits:
           cpu: 500m
