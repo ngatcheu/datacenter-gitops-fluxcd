@@ -18,8 +18,13 @@ spec:
   timeout: 30m
   install:
     timeout: 30m
+    remediation:
+      retries: 3
   upgrade:
     timeout: 30m
+    remediation:
+      retries: 3
+      remediateLastFailure: true
   values:
     airflowVersion: "3.1.7"
     defaultAirflowTag: "3.1.7"
@@ -27,6 +32,8 @@ spec:
     redis:
       enabled: false
     createUserJob:
+      useHelmHooks: false
+      applyCustomEnv: false
       defaultUser:
         role: Admin
         username: admin
@@ -34,6 +41,9 @@ spec:
         firstName: Admin
         lastName: User
         password: admin
+    migrateDatabaseJob:
+      useHelmHooks: false
+      applyCustomEnv: false
     data:
       metadataConnection:
         user: airflow
