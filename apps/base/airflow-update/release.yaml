@@ -71,24 +71,24 @@ spec:
           cpu: 200m
           memory: 256Mi
         limits:
-          cpu: 1000m
+          cpu: 1000m    # critique : orchestre tous les DAGs
           memory: 1Gi
     apiServer:
       replicas: 1
       resources:
         requests:
-          cpu: 200m
+          cpu: 100m
           memory: 256Mi
         limits:
-          cpu: 1000m
+          cpu: 750m     # HTTP API, moins intensif une fois démarré
           memory: 1Gi
     triggerer:
       resources:
         requests:
           cpu: 200m
-          memory: 256Mi
+          memory: 512Mi
         limits:
-          cpu: 1000m
+          cpu: 1000m    # consommateur le plus élevé observé (628m)
           memory: 1Gi
     logs:
       persistence:
