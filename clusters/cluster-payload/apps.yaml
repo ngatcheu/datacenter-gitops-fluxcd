@@ -63,21 +63,3 @@ spec:
     name: flux-system
   path: ./apps/cluster-payload/n8n
   prune: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: airflow
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: longhorn
-  interval: 1h
-  retryInterval: 2m
-  timeout: 20m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./apps/cluster-payload/airflow-update
-  prune: true
-  wait: true
