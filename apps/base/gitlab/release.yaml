@@ -86,13 +86,14 @@ spec:
             cpu: 1000m
             memory: 2Gi
       sidekiq:
+        concurrency: 5
         resources:
           requests:
             cpu: 100m
-            memory: 256Mi
+            memory: 512Mi
           limits:
-            cpu: 500m
-            memory: 1Gi
+            cpu: 1000m
+            memory: 2Gi
       gitaly:
         persistence:
           storageClass: longhorn-retain
