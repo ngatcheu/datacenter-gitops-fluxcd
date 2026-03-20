@@ -46,15 +46,6 @@ spec:
     migrateDatabaseJob:
       useHelmHooks: false
       applyCustomEnv: false
-    data:
-      metadataConnection:
-        user: airflow
-        pass: airflow
-        protocol: postgresql
-        host: ~
-        port: 5432
-        db: airflow
-        sslmode: disable
     postgresql:
       enabled: true
       auth:
