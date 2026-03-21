@@ -88,6 +88,16 @@ spec:
       sidekiq:
         concurrency: 5
         memoryKillerMaxRss: 2000000
+        livenessProbe:
+          initialDelaySeconds: 180
+          periodSeconds: 60
+          failureThreshold: 3
+          timeoutSeconds: 5
+        readinessProbe:
+          initialDelaySeconds: 60
+          periodSeconds: 10
+          failureThreshold: 6
+          timeoutSeconds: 5
         resources:
           requests:
             cpu: 100m
