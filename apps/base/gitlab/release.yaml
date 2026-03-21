@@ -87,6 +87,7 @@ spec:
             memory: 2Gi
       sidekiq:
         concurrency: 5
+        memoryKillerMaxRss: 2000000
         resources:
           requests:
             cpu: 100m
