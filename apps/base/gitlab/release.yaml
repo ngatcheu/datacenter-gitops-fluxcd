@@ -53,6 +53,11 @@ spec:
     gitlab-runner:
       install: false
     postgresql:
+      auth:
+        existingSecret: gitlab-postgresql-password
+        secretKeys:
+          adminPasswordKey: postgresql-postgres-password
+          userPasswordKey: postgresql-password
       primary:
         persistence:
           storageClass: longhorn-retain
