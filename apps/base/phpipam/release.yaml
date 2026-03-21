@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: phpipam
+  namespace: phpipam
+spec:
+  interval: 5m
+  releaseName: phpipam
+  timeout: 10m
+  install:
+    timeout: 10m
+    remediation:
+      retries: 3
+  upgrade:
+    timeout: 10m
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  chart:
+    spec:
+      chart: phpipam
+      version: "1.0.3"
+      sourceRef:
+        kind: HelmRepository
+        name: phpipam
+        namespace: flux-system
+      interval: 1m
+  valuesFrom:
+    - kind: Secret
+      name: phpipam-secret
+      valuesKey: database-password
+      targetPath: global.database.password
+  values:
+    global:
+      domain: "ipam.homelab.local"
+      database:
+        name: phpipam
+        user: phpipam
+
+    database:
+      installed: true
+      persistence:
+        enabled: true
+        storageClassName: longhorn-retain
+        size: 8Gi
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+
+    phpipam:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
+
+    cron:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 32Mi
+        limits:
+          cpu: 200m
+          memory: 256Mi
+
+    ingress:
+      enabled: false

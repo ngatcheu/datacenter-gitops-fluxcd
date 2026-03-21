@@ -1,0 +1,85 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: netbox
+  namespace: netbox
+spec:
+  interval: 5m
+  releaseName: netbox
+  timeout: 15m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 3
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  chart:
+    spec:
+      chart: netbox-chart/netbox
+      version: "8.0.19"
+      sourceRef:
+        kind: HelmRepository
+        name: netbox
+        namespace: flux-system
+      interval: 1m
+  values:
+    superuser:
+      name: admin
+      email: admin@homelab.local
+      existingSecret: netbox-superuser-secret
+
+    existingSecret: netbox-secret
+
+    allowedHosts:
+      - "netbox.homelab.local"
+
+    timeZone: Europe/Paris
+
+    postgresql:
+      enabled: true
+      auth:
+        username: netbox
+        database: netbox
+        existingSecret: netbox-postgresql-secret
+        secretKeys:
+          adminPasswordKey: postgresql-postgres-password
+          userPasswordKey: postgresql-password
+      primary:
+        persistence:
+          enabled: true
+          storageClass: longhorn-retain
+          size: 8Gi
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+    valkey:
+      enabled: true
+      sentinel:
+        enabled: false
+      auth:
+        sentinel: false
+
+    persistence:
+      enabled: true
+      storageClass: longhorn-retain
+      size: 5Gi
+
+    ingress:
+      enabled: false
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
