@@ -6,4 +6,4 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://phpipam.github.io/phpipam-helm-charts/
+  url: https://vquie.github.io/helm-charts/
