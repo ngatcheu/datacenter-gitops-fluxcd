@@ -19,7 +19,7 @@ spec:
       remediateLastFailure: true
   chart:
     spec:
-      chart: netbox-chart/netbox
+      chart: netbox
       version: "8.0.19"
       sourceRef:
         kind: HelmRepository
@@ -27,6 +27,9 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
+    global:
+      storageClass: longhorn-retain
+
     superuser:
       name: admin
       email: admin@homelab.local
@@ -36,6 +39,10 @@ spec:
 
     allowedHosts:
       - "netbox.homelab.local"
+
+    csrf:
+      trustedOrigins:
+        - "http://netbox.homelab.local"
 
     timeZone: Europe/Paris
 
@@ -51,7 +58,6 @@ spec:
       primary:
         persistence:
           enabled: true
-          storageClass: longhorn-retain
           size: 3Gi
         resources:
           requests:
@@ -70,7 +76,6 @@ spec:
 
     persistence:
       enabled: true
-      storageClass: longhorn-retain
       size: 2Gi
 
     ingress:
