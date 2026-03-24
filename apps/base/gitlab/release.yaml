@@ -1,0 +1,119 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gitlab
+  namespace: gitlab
+spec:
+  interval: 1h
+  releaseName: gitlab
+  timeout: 30m
+  install:
+    timeout: 30m
+    remediation:
+      retries: 3
+  upgrade:
+    timeout: 30m
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  chart:
+    spec:
+      chart: gitlab
+      version: "9.10.0"
+      sourceRef:
+        kind: HelmRepository
+        name: gitlab
+        namespace: flux-system
+      interval: 1m
+  values:
+    global:
+      hosts:
+        domain: homelab.local
+        gitlab:
+          name: gitlab.homelab.local
+        https: false
+      ingress:
+        configureCertmanager: false
+        provider: nginx
+        tls:
+          enabled: false
+      storageClass: longhorn-retain
+      psql:
+        password:
+          secret: gitlab-postgresql-password
+          key: postgresql-password
+
+    installCertmanager: false
+    certmanager:
+      installCRDs: false
+
+    nginx-ingress:
+      enabled: false
+
+    prometheus:
+      install: false
+
+    gitlab-runner:
+      install: false
+
+    postgresql:
+      primary:
+        persistence:
+          storageClass: longhorn-retain
+          size: 5Gi
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+    redis:
+      master:
+        persistence:
+          storageClass: longhorn-retain
+          size: 2Gi
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+
+    minio:
+      persistence:
+        storageClass: longhorn-retain
+        size: 5Gi
+
+    gitlab:
+      webservice:
+        resources:
+          requests:
+            cpu: 200m
+            memory: 512Mi
+          limits:
+            cpu: 2000m
+            memory: 2Gi
+      sidekiq:
+        concurrency: 5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 2000m
+            memory: 2Gi
+      gitaly:
+        persistence:
+          storageClass: longhorn-retain
+          size: 5Gi
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 1Gi
