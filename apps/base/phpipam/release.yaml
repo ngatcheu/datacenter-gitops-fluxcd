@@ -33,7 +33,7 @@ spec:
       targetPath: global.database.password
   values:
     global:
-      domain: "ipam.homelab.local"
+      domain: "phpipam.homelab.local"
       database:
         name: phpipam
         user: phpipam
