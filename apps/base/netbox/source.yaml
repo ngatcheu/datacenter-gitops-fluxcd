@@ -1,5 +1,5 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: netbox
@@ -7,3 +7,5 @@ metadata:
 spec:
   interval: 1h
   url: oci://ghcr.io/netbox-community/netbox-chart/netbox
+  ref:
+    tag: "8.0.22"

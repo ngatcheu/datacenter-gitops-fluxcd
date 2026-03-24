@@ -70,8 +70,7 @@ spec:
         sentinel: false
 
     persistence:
-      enabled: true
-      size: 2Gi
+      enabled: false
 
     ingress:
       enabled: false
