@@ -17,15 +17,10 @@ spec:
     remediation:
       retries: 3
       remediateLastFailure: true
-  chart:
-    spec:
-      chart: netbox
-      version: "8.0.19"
-      sourceRef:
-        kind: HelmRepository
-        name: netbox
-        namespace: flux-system
-      interval: 1m
+  chartRef:
+    kind: OCIRepository
+    name: netbox
+    namespace: flux-system
   values:
     global:
       storageClass: longhorn-retain
