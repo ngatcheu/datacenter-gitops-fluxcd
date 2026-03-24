@@ -43,7 +43,7 @@ spec:
       persistence:
         enabled: true
         storageClassName: longhorn-retain
-        size: 8Gi
+        size: 3Gi
       resources:
         requests:
           cpu: 100m
