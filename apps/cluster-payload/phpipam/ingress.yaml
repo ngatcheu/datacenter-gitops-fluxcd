@@ -16,6 +16,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: phpipam
+                name: phpipam-web
                 port:
                   number: 80
