@@ -7,13 +7,13 @@ metadata:
 spec:
   interval: 1h
   releaseName: gitlab
-  timeout: 30m
+  timeout: 60m
   install:
-    timeout: 30m
+    timeout: 60m
     remediation:
       retries: 3
   upgrade:
-    timeout: 30m
+    timeout: 60m
     remediation:
       retries: 3
       remediateLastFailure: true
@@ -105,6 +105,12 @@ spec:
         concurrency: 5
         memoryKiller:
           maxRss: 2000000
+        livenessProbe:
+          initialDelaySeconds: 300
+        readinessProbe:
+          initialDelaySeconds: 300
+        extraEnv:
+          GITLAB_MEMWD_MAX_RSS_BYTES: "2147483648"
         resources:
           requests:
             cpu: 100m
