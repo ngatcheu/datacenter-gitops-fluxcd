@@ -34,6 +34,7 @@ spec:
           name: gitlab.homelab.local
         https: false
       ingress:
+        enabled: false
         configureCertmanager: false
         provider: nginx
         tls:

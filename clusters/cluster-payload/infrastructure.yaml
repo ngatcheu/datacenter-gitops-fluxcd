@@ -2,57 +2,6 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: metallb
-  namespace: flux-system
-spec:
-  interval: 1h
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/base/metallb
-  prune: true
-  wait: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: metallb-config
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: metallb
-  interval: 1h
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/cluster-payload/metallb-config
-  prune: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: ingress-nginx-lb
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: metallb
-    - name: metallb-config
-  interval: 1h
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/cluster-payload
-  prune: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: longhorn
   namespace: flux-system
 spec:
@@ -81,5 +30,57 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/cluster-payload/kube-prometheus-stack
+  prune: true
+  wait: true
+---
+# Étape 1 : déploie le GitRepository gateway-api dans le cluster
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api-source
+  namespace: flux-system
+spec:
+  interval: 1h
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/cluster-payload/gateway-api
+  prune: true
+  wait: true
+---
+# Étape 2 : installe les CRDs depuis le repo kubernetes-sigs/gateway-api
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: gateway-api-source
+  interval: 24h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: gateway-api
+  path: ./config/crd/standard
+  prune: false
+  wait: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: gateway-api
+  interval: 1h
+  retryInterval: 1m
+  timeout: 15m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/cluster-payload/traefik
   prune: true
   wait: true
