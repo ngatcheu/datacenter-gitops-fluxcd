@@ -62,24 +62,20 @@ spec:
               namespace: traefik
           mode: Terminate
 
-    # hostPort : les pods écoutent directement sur les ports du nœud
-    # (compatible keepalived VIP → nœud → pod)
     ports:
       web:
         port: 8000
         exposedPort: 80
-        hostPort: 80
         expose:
           default: true
       websecure:
         port: 8443
         exposedPort: 443
-        hostPort: 443
         expose:
           default: true
 
     service:
-      type: ClusterIP
+      type: LoadBalancer
 
     logs:
       general:
