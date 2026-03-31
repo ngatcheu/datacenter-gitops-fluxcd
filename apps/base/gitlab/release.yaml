@@ -32,7 +32,7 @@ spec:
         domain: homelab.local
         gitlab:
           name: gitlab.homelab.local
-        https: false
+        https: true
       ingress:
         enabled: false
         configureCertmanager: false

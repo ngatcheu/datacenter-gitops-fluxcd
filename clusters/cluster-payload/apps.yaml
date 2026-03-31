@@ -31,7 +31,12 @@ metadata:
   name: gitlab
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: traefik
+    - name: cert-manager-issuers
   interval: 5m
+  retryInterval: 2m
+  timeout: 5m
   sourceRef:
     kind: GitRepository
     name: flux-system
