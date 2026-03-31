@@ -4,6 +4,13 @@ kind: CiliumL2AnnouncementPolicy
 metadata:
   name: default
 spec:
+  # Adapter si l'interface réseau des nœuds n'est pas eth0 (ex: ens18, ens192)
   interfaces:
     - eth0
   loadBalancerIPs: true
+  externalIPs: true
+  # Restreint aux nœuds worker (exclut les control-plane avec le taint CriticalAddonsOnly)
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
