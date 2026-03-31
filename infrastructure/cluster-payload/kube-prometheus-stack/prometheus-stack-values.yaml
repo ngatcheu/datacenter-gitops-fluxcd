@@ -8,25 +8,12 @@ spec:
   values:
     grafana:
       ingress:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - grafana.homelab.local
-        annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        enabled: false
     prometheus:
+      prometheusSpec:
+        serviceMonitorSelectorNilUsesHelmValues: false
       ingress:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - prometheus.homelab.local
-        annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        enabled: false
     alertmanager:
       ingress:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - alertmanager.homelab.local
-        annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        enabled: false
