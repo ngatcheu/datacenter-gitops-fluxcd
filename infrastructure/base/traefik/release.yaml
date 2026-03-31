@@ -68,6 +68,12 @@ spec:
         exposedPort: 80
         expose:
           default: true
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+              permanent: true
       websecure:
         port: 8443
         exposedPort: 443
@@ -97,4 +103,4 @@ spec:
         enabled: true
         matchRule: "Host(`traefik.homelab.local`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
         entryPoints:
-          - web
+          - websecure
