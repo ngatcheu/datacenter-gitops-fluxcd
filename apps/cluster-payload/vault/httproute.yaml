@@ -6,7 +6,7 @@ metadata:
   namespace: vault
 spec:
   parentRefs:
-    - name: traefik
+    - name: traefik-gateway
       namespace: traefik
   hostnames:
     - vault.homelab.local

@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   parentRefs:
-    - name: traefik
+    - name: traefik-gateway
       namespace: traefik
   hostnames:
     - grafana.homelab.local
@@ -22,7 +22,7 @@ metadata:
   namespace: monitoring
 spec:
   parentRefs:
-    - name: traefik
+    - name: traefik-gateway
       namespace: traefik
   hostnames:
     - prometheus.homelab.local
@@ -38,7 +38,7 @@ metadata:
   namespace: monitoring
 spec:
   parentRefs:
-    - name: traefik
+    - name: traefik-gateway
       namespace: traefik
   hostnames:
     - alertmanager.homelab.local
