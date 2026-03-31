@@ -1,0 +1,116 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kafka
+  namespace: kafka
+spec:
+  interval: 1h
+  releaseName: kafka
+  timeout: 15m
+  install:
+    timeout: 15m
+    remediation:
+      retries: 3
+  upgrade:
+    timeout: 15m
+    remediation:
+      retries: 3
+      remediateLastFailure: true
+  chart:
+    spec:
+      chart: kafka
+      version: "31.*"
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+      interval: 1h
+  values:
+    # Kafka 4.0 : KRaft uniquement, ZooKeeper supprime
+    # controller.controllerOnly: false = chaque node est controller + broker
+
+    controller:
+      replicaCount: 3
+      controllerOnly: false
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          cpu: 1000m
+          memory: 2Gi
+      persistence:
+        enabled: true
+        storageClass: longhorn-retain
+        size: 10Gi
+
+    # Listeners en PLAINTEXT (pas d'auth SASL pour simplifier l'acces intra-cluster)
+    listeners:
+      client:
+        protocol: PLAINTEXT
+      controller:
+        protocol: PLAINTEXT
+      interbroker:
+        protocol: PLAINTEXT
+
+    # Configuration Kafka additionnelle
+    overrideConfiguration:
+      log.retention.hours: "168"
+      log.segment.bytes: "1073741824"
+      log.retention.check.interval.ms: "300000"
+      auto.create.topics.enable: "false"
+      default.replication.factor: "3"
+      min.insync.replicas: "2"
+      offsets.topic.replication.factor: "3"
+      transaction.state.log.replication.factor: "3"
+      transaction.state.log.min.isr: "2"
+
+    # Metriques Prometheus
+    metrics:
+      kafka:
+        enabled: true
+      jmx:
+        enabled: true
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kafka-ui
+  namespace: kafka
+spec:
+  interval: 1h
+  releaseName: kafka-ui
+  timeout: 5m
+  dependsOn:
+    - name: kafka
+      namespace: kafka
+  chart:
+    spec:
+      chart: kafka-ui
+      version: "0.*"
+      sourceRef:
+        kind: HelmRepository
+        name: kafka-ui
+        namespace: flux-system
+      interval: 1h
+  values:
+    yamlApplicationConfig:
+      kafka:
+        clusters:
+          - name: homelab
+            bootstrapServers: kafka.kafka.svc.cluster.local:9092
+      auth:
+        type: disabled
+      management:
+        health:
+          ldap:
+            enabled: false
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
