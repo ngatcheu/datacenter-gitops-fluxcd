@@ -1,14 +1,15 @@
 ---
-# Certificat wildcard pour *.home.lab
+# Certificat wildcard pour *.homelab.local — émis dans le namespace traefik
+# pour être référencé directement par le Gateway
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: wildcard-homelab-tls
-  namespace: cert-manager
+  namespace: traefik
 spec:
-  secretName: wildcard-homelab-tls-secret
-  duration: 8760h  # 1 an
-  renewBefore: 720h  # Renouveler 30 jours avant expiration
+  secretName: wildcard-tls
+  duration: 8760h
+  renewBefore: 720h
   subject:
     organizations:
       - Home Lab
@@ -19,8 +20,8 @@ spec:
     - server auth
     - client auth
   dnsNames:
-    - "*.home.lab"
-    - "home.lab"
+    - "*.homelab.local"
+    - "homelab.local"
   issuerRef:
     name: homelab-ca-issuer
     kind: ClusterIssuer
