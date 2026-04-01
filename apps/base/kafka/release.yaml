@@ -64,7 +64,7 @@ metadata:
 spec:
   interval: 1h
   releaseName: kafka-ui
-  timeout: 5m
+  timeout: 10m
   dependsOn:
     - name: kafka
       namespace: kafka
