@@ -74,7 +74,7 @@ spec:
       version: "*"
       sourceRef:
         kind: HelmRepository
-        name: kubelauncher
+        name: kafka-ui
         namespace: flux-system
       interval: 1h
   values:
