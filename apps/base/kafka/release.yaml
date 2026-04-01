@@ -39,10 +39,14 @@ spec:
 
     heapOpts: "-Xmx1g -Xms1g"
 
+    # Utiliser un sous-repertoire pour eviter le conflit avec lost+found (ext4/Longhorn)
+    logDirs: /data/kafka/logs
+
     persistence:
       enabled: true
       storageClass: longhorn-retain
       size: 10Gi
+      mountPath: /data/kafka
 
     resources:
       requests:
