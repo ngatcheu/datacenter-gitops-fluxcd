@@ -6,9 +6,9 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: cert-manager
-    - name: rancher-tls
+    - name: cert-manager-issuers
     - name: cilium-lb
+    - name: traefik
   interval: 5m
   retryInterval: 2m
   timeout: 20m

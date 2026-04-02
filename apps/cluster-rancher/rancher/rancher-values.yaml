@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: rancher
@@ -11,6 +11,6 @@ spec:
     startupProbe:
       failureThreshold: 60
       periodSeconds: 10
-    privateCA: true
+    privateCA: false
     ingress:
       enabled: false
