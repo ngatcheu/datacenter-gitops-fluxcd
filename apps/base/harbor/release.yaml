@@ -20,10 +20,7 @@ spec:
     expose:
       type: clusterIP
       tls:
-        enabled: true
-        certSource: secret
-        secret:
-          secretName: wildcard-tls
+        enabled: false
       clusterIP:
         name: harbor
     externalURL: https://harbor.homelab.local
@@ -32,7 +29,7 @@ spec:
       resourcePolicy: keep
       persistentVolumeClaim:
         registry:
-          size: 10GGi
+          size: 10Gi
         jobservice:
           jobLog:
             size: 1Gi
@@ -43,3 +40,4 @@ spec:
         trivy:
           size: 5Gi
     harborAdminPassword: "Harbor12345"
+    secretKey: "not-a-secure-key"
