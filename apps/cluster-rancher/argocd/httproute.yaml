@@ -9,7 +9,7 @@ spec:
     - name: traefik-gateway
       namespace: traefik
   hostnames:
-    - argocd.homelab.local
+    - argocd-rancher.homelab.local
   rules:
     - backendRefs:
         - name: argocd-server
