@@ -13,6 +13,4 @@ spec:
       periodSeconds: 10
     privateCA: true
     ingress:
-      ingressClassName: nginx
-      tls:
-        source: secret
+      enabled: false

@@ -7,11 +7,11 @@ metadata:
 spec:
   interval: 1h
   retryInterval: 1m
-  timeout: 5m
+  timeout: 10m
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/base/cert-manager
+  path: ./infrastructure/cluster-rancher/cert-manager
   prune: true
   wait: true
 ---
@@ -36,49 +36,65 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: metallb
+  name: cilium-lb
   namespace: flux-system
 spec:
   interval: 1h
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/cluster-rancher/cilium-lb
+  prune: true
+  wait: true
+---
+# Étape 1 : déploie le GitRepository gateway-api dans le cluster
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api-source
+  namespace: flux-system
+spec:
+  interval: 1h
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/cluster-rancher/gateway-api
+  prune: true
+  wait: true
+---
+# Étape 2 : installe les CRDs depuis le repo kubernetes-sigs/gateway-api
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-api
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: gateway-api-source
+  interval: 24h
   retryInterval: 1m
   timeout: 5m
   sourceRef:
     kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/base/metallb
-  prune: true
+    name: gateway-api
+  path: ./config/crd/standard
+  prune: false
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: metallb-config
+  name: traefik
   namespace: flux-system
 spec:
   dependsOn:
-    - name: metallb
+    - name: gateway-api
   interval: 1h
   retryInterval: 1m
-  timeout: 5m
+  timeout: 15m
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/cluster-rancher/metallb-config
+  path: ./infrastructure/cluster-rancher/traefik
   prune: true
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: ingress-nginx-lb
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: metallb
-  interval: 1h
-  retryInterval: 1m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./infrastructure/cluster-rancher
-  prune: true
+  wait: true
