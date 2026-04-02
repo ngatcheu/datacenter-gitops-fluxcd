@@ -7,3 +7,4 @@ resources:
   - adminer-basic-auth.yaml
 patchesStrategicMerge:
   - adminer-values.yaml
+  - httproute.yaml
