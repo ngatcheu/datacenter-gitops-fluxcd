@@ -5,5 +5,5 @@ metadata:
   name: homelab-pool
 spec:
   blocks:
-    - start: "192.168.1.211"
+    - start: "192.168.1.221"
       stop: "192.168.1.250"
