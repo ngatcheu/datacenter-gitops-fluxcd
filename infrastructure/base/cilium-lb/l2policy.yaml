@@ -9,8 +9,6 @@ spec:
     - eth0
   loadBalancerIPs: true
   externalIPs: true
-  # Restreint aux nœuds worker (exclut les control-plane avec le taint CriticalAddonsOnly)
+  # Tous les nœuds (pas de worker dédié dans ce cluster)
   nodeSelector:
-    matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: DoesNotExist
+    matchLabels: {}
