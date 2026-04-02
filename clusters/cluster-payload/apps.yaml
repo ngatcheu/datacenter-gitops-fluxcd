@@ -97,6 +97,21 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: warap
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cnpg
+  interval: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/cluster-payload/warap
+  prune: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: harbor
   namespace: flux-system
 spec:
