@@ -142,12 +142,26 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
+  name: gitlab-operator
+  namespace: flux-system
+spec:
+  interval: 5m
+  retryInterval: 2m
+  timeout: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/cluster-payload/gitlab-operator
+  prune: true
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
   name: gitlab
   namespace: flux-system
 spec:
   dependsOn:
-    - name: longhorn
-    - name: cert-manager
+    - name: gitlab-operator
   interval: 5m
   retryInterval: 2m
   timeout: 20m
