@@ -36,6 +36,8 @@ spec:
 
       gitlab:
         webservice:
+          minReplicas: 1
+          maxReplicas: 1
           resources:
             requests:
               cpu: 200m
@@ -53,6 +55,9 @@ spec:
             failureThreshold: 10
             periodSeconds: 10
             timeoutSeconds: 5
+        sidekiq:
+          minReplicas: 1
+          maxReplicas: 1
         gitaly:
           persistence:
             storageClass: longhorn-retain
