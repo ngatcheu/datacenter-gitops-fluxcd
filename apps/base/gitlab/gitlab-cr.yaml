@@ -45,8 +45,14 @@ spec:
               memory: 4Gi
           livenessProbe:
             initialDelaySeconds: 600
+            failureThreshold: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
           readinessProbe:
             initialDelaySeconds: 300
+            failureThreshold: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
         gitaly:
           persistence:
             storageClass: longhorn-retain
