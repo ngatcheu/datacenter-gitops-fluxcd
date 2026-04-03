@@ -1,0 +1,13 @@
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: warap-db-backup
+  namespace: warap
+spec:
+  # Tous les jours à 2h du matin
+  schedule: "0 2 * * *"
+  backupOwnerReference: self
+  cluster:
+    name: warap-db
+  method: volumeSnapshot

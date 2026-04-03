@@ -1,0 +1,10 @@
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vault-connection
+  namespace: vault-secrets-operator-system
+spec:
+  # Vault externe via Traefik sur cluster-payload
+  address: https://vault.homelab.local
+  skipTLSVerify: true

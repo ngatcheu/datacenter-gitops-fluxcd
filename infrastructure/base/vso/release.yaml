@@ -1,0 +1,29 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vso
+  namespace: vault-secrets-operator-system
+spec:
+  interval: 1h
+  releaseName: vso
+  targetNamespace: vault-secrets-operator-system
+  chart:
+    spec:
+      chart: vault-secrets-operator
+      version: "0.10.*"
+      sourceRef:
+        kind: HelmRepository
+        name: hashicorp
+        namespace: flux-system
+      interval: 1h
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    replicaCount: 1
