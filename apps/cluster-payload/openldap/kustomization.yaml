@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - ../../base/openldap
   - secrets.yaml
-  - bootstrap.yaml
   - httproute.yaml
