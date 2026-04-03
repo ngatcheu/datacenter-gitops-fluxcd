@@ -1,0 +1,66 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openldap-bootstrap
+  namespace: openldap
+data:
+  # -------------------------------------------------------------------------
+  # 01 - Groupes
+  # Pour ajouter un groupe : copier un bloc et changer cn + gidNumber
+  # -------------------------------------------------------------------------
+  01-groups.ldif: |
+    dn: cn=devsecops-dojo,ou=groups,dc=homelab,dc=local
+    objectClass: posixGroup
+    cn: devsecops-dojo
+    gidNumber: 5000
+
+  # -------------------------------------------------------------------------
+  # 02 - Utilisateurs
+  # Pour ajouter un utilisateur : copier un bloc et adapter les champs
+  #
+  # Champs obligatoires : uid, cn, sn, mail, userPassword, uidNumber, gidNumber
+  # gidNumber : groupe principal de l'utilisateur (5000 = devsecops-dojo)
+  # uidNumber : incrementer a chaque nouvel utilisateur (1001, 1002, 1003...)
+  # -------------------------------------------------------------------------
+  02-users.ldif: |
+    dn: uid=fabrice,ou=users,dc=homelab,dc=local
+    objectClass: inetOrgPerson
+    objectClass: posixAccount
+    objectClass: shadowAccount
+    uid: fabrice
+    cn: Fabrice
+    sn: Fabrice
+    mail: fabrice@homelab.local
+    userPassword: micoli1987
+    uidNumber: 1001
+    gidNumber: 5000
+    homeDirectory: /home/fabrice
+    loginShell: /bin/bash
+
+    # --- Ajouter les prochains utilisateurs ci-dessous ---
+    # dn: uid=prenom,ou=users,dc=homelab,dc=local
+    # objectClass: inetOrgPerson
+    # objectClass: posixAccount
+    # objectClass: shadowAccount
+    # uid: prenom
+    # cn: Prenom Nom
+    # sn: Nom
+    # mail: prenom@homelab.local
+    # userPassword: motdepasse
+    # uidNumber: 1002
+    # gidNumber: 5000
+    # homeDirectory: /home/prenom
+    # loginShell: /bin/bash
+
+  # -------------------------------------------------------------------------
+  # 03 - Membres des groupes
+  # Pour ajouter un membre : ajouter une ligne "memberUid: uid"
+  # -------------------------------------------------------------------------
+  03-group-members.ldif: |
+    dn: cn=devsecops-dojo,ou=groups,dc=homelab,dc=local
+    changetype: modify
+    add: memberUid
+    memberUid: fabrice
+    # Ajouter les prochains membres ci-dessous :
+    # memberUid: prenom

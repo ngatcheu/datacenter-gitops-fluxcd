@@ -51,6 +51,7 @@ spec:
       bootstrap:
         enabled: true
         createDefaultOUs: true
+        customLdifConfigMap: "openldap-bootstrap"
       resources:
         requests:
           cpu: 100m
