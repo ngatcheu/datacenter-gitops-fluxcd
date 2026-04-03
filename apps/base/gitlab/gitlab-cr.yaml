@@ -1,0 +1,70 @@
+---
+apiVersion: apps.gitlab.com/v1beta1
+kind: GitLab
+metadata:
+  name: gitlab
+  namespace: gitlab-system
+spec:
+  chart:
+    # Version du chart GitLab — gitlab/gitlab 9.10.1 = GitLab v18.10.1
+    version: "9.10.1"
+    values:
+      global:
+        hosts:
+          domain: homelab.local
+          https: true
+          gitlab:
+            name: gitlab.homelab.local
+          registry:
+            name: registry.homelab.local
+        ingress:
+          enabled: false
+          configureCertmanager: false
+          class: none
+        certmanager:
+          install: false
+        storageClass: longhorn-retain
+
+      certmanager:
+        install: false
+
+      nginx-ingress:
+        enabled: false
+
+      prometheus:
+        install: false
+
+      gitlab:
+        webservice:
+          resources:
+            requests:
+              cpu: 200m
+              memory: 1Gi
+            limits:
+              cpu: 2000m
+              memory: 4Gi
+          livenessProbe:
+            initialDelaySeconds: 600
+          readinessProbe:
+            initialDelaySeconds: 300
+        gitaly:
+          persistence:
+            storageClass: longhorn-retain
+            size: 10Gi
+
+      postgresql:
+        primary:
+          persistence:
+            storageClass: longhorn-retain
+            size: 8Gi
+
+      redis:
+        master:
+          persistence:
+            storageClass: longhorn-retain
+            size: 1Gi
+
+      minio:
+        persistence:
+          storageClass: longhorn-retain
+          size: 10Gi
