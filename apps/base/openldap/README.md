@@ -94,12 +94,22 @@ Bind DN: cn=admin,dc=homelab,dc=local
 
 ---
 
-## Ajouter un utilisateur (via phpLDAPadmin)
+## Ajouter un utilisateur
 
-1. Connecter sur `https://ldap.homelab.local`
-2. Naviguer vers `ou=users,dc=homelab,dc=local`
-3. Clic **Create a child entry** → **Generic: User Account**
-4. Remplir : `uid`, `cn`, `sn`, `mail`, `userPassword`
+### Via phpLDAPadmin (interface graphique)
+
+1. Ouvrir `https://ldap.homelab.local`
+2. Login → `cn=admin,dc=homelab,dc=local` / mot de passe admin
+3. Dans l'arbre a gauche → `ou=users` → **Create a child entry**
+4. Choisir **Generic: User Account**
+5. Remplir les champs : `uid`, `First name`, `Last name`, `Email`, `Password`
+6. Cliquer **Commit** pour valider
+
+**Ajouter l'utilisateur a un groupe :**
+
+1. Cliquer sur `cn=devsecops-dojo` sous `ou=groups`
+2. **Add new attribute** → `memberUid` → entrer l'uid de l'utilisateur
+3. Cliquer **Update Object**
 
 ### Via ldapadd (depuis un pod)
 
