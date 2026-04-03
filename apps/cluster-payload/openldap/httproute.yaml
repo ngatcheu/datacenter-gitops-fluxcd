@@ -12,5 +12,5 @@ spec:
     - ldap.homelab.local
   rules:
     - backendRefs:
-        - name: phpldapadmin
+        - name: openldap-ldap-stack-phpldapadmin
           port: 80
