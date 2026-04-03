@@ -19,7 +19,7 @@ spec:
   chart:
     spec:
       chart: gitlab-operator
-      version: "2.10.1"
+      version: "2.*"
       sourceRef:
         kind: HelmRepository
         name: gitlab
