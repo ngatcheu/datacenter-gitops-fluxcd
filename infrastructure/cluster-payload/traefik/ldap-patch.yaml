@@ -1,0 +1,23 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  values:
+    providers:
+      kubernetesCRD:
+        enabled: true
+      kubernetesGateway:
+        enabled: true
+      kubernetesIngress:
+        enabled: false
+
+    ports:
+      ldap:
+        port: 389
+        exposedPort: 389
+        expose:
+          default: true
+        protocol: TCP

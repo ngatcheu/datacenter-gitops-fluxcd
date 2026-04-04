@@ -4,3 +4,4 @@ resources:
   - ../../base/openldap
   - secrets.yaml
   - httproute.yaml
+  - ingressroute-tcp.yaml
