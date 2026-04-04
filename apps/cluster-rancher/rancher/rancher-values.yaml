@@ -11,6 +11,6 @@ spec:
     startupProbe:
       failureThreshold: 60
       periodSeconds: 10
-    privateCA: false
+    privateCA: true
     ingress:
       enabled: false
