@@ -43,8 +43,9 @@ Chart tout-en-un incluant :
 
 ```
 dc=homelab,dc=local
-├── ou=users
-└── ou=groups
+├── ou=users      # Utilisateurs (inetOrgPerson)
+├── ou=groups     # Groupes (groupOfNames)
+└── ou=services   # Comptes de service
 ```
 
 ---
@@ -94,6 +95,18 @@ Bind DN: cn=admin,dc=homelab,dc=local
 
 ---
 
+## Groupes Rancher
+
+Les groupes suivants sont utilises par Rancher pour les role bindings :
+
+| Groupe | Role Rancher | DN |
+|--------|-------------|-----|
+| `devops` | admin global | `cn=devops,ou=groups,dc=homelab,dc=local` |
+| `middleware` | admin global | `cn=middleware,ou=groups,dc=homelab,dc=local` |
+| `usilo` | user | `cn=usilo,ou=groups,dc=homelab,dc=local` |
+
+---
+
 ## Ajouter un utilisateur
 
 ### Via phpLDAPadmin (interface graphique)
@@ -107,31 +120,56 @@ Bind DN: cn=admin,dc=homelab,dc=local
 
 **Ajouter l'utilisateur a un groupe :**
 
-1. Cliquer sur `cn=devsecops-dojo` sous `ou=groups`
-2. **Add new attribute** → `memberUid` → entrer l'uid de l'utilisateur
+1. Cliquer sur le groupe cible sous `ou=groups`
+2. **Add new attribute** → `member` → entrer le DN complet de l'utilisateur
 3. Cliquer **Update Object**
 
-### Via ldapadd (depuis un pod)
+### Via ldapadd (depuis kubectl)
 
 ```bash
-# Se connecter au pod OpenLDAP
-kubectl exec -it -n openldap deployment/openldap-ldap-stack-openldap -- bash
+LDAP_PASS=$(kubectl get secret -n openldap openldap-secret -o jsonpath='{.data.admin-password}' | base64 -d)
 
-# Creer un utilisateur
-cat <<EOF | ldapadd -x -H ldap://localhost -D "cn=admin,dc=homelab,dc=local" -w <password>
+cat <<EOF | kubectl exec -i -n openldap deploy/openldap-ldap-stack-openldap -- \
+  ldapadd -x -H ldap://localhost:389 -D "cn=admin,dc=homelab,dc=local" -w "$LDAP_PASS"
 dn: uid=jdoe,ou=users,dc=homelab,dc=local
 objectClass: inetOrgPerson
-objectClass: posixAccount
 uid: jdoe
 cn: John Doe
 sn: Doe
 mail: jdoe@homelab.local
 userPassword: <password>
-uidNumber: 1001
-gidNumber: 1001
-homeDirectory: /home/jdoe
 EOF
 ```
+
+### Ajouter un utilisateur a un groupe existant
+
+```bash
+LDAP_PASS=$(kubectl get secret -n openldap openldap-secret -o jsonpath='{.data.admin-password}' | base64 -d)
+
+cat <<EOF | kubectl exec -i -n openldap deploy/openldap-ldap-stack-openldap -- \
+  ldapmodify -x -H ldap://localhost:389 -D "cn=admin,dc=homelab,dc=local" -w "$LDAP_PASS"
+dn: cn=devops,ou=groups,dc=homelab,dc=local
+changetype: modify
+add: member
+member: uid=jdoe,ou=users,dc=homelab,dc=local
+EOF
+```
+
+## Ajouter un groupe
+
+```bash
+LDAP_PASS=$(kubectl get secret -n openldap openldap-secret -o jsonpath='{.data.admin-password}' | base64 -d)
+
+cat <<EOF | kubectl exec -i -n openldap deploy/openldap-ldap-stack-openldap -- \
+  ldapadd -x -H ldap://localhost:389 -D "cn=admin,dc=homelab,dc=local" -w "$LDAP_PASS"
+dn: cn=nouveau-groupe,ou=groups,dc=homelab,dc=local
+objectClass: groupOfNames
+cn: nouveau-groupe
+member: uid=jdoe,ou=users,dc=homelab,dc=local
+EOF
+```
+
+> **Note** : `groupOfNames` exige au minimum un `member`. Utiliser un utilisateur existant comme membre initial.
 
 ---
 
