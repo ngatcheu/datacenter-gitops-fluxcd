@@ -23,6 +23,7 @@ metadata:
 spec:
   dependsOn:
     - name: cert-manager
+    - name: traefik
   interval: 1h
   retryInterval: 1m
   timeout: 5m
@@ -105,7 +106,6 @@ metadata:
 spec:
   dependsOn:
     - name: gateway-api
-    - name: cert-manager-issuers
   interval: 1h
   retryInterval: 1m
   timeout: 15m
