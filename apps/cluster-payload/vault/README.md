@@ -42,7 +42,7 @@ kubectl exec -n vault vault-0 -- vault status
 
 ## Connexion UI
 
-Se connecter avec le **Root Token** sur http://vault.homelab.local
+Se connecter avec le **Root Token** sur https://vault.homelab.local
 
 ## Structure FluxCD
 
@@ -55,5 +55,49 @@ apps/
     kustomization.yaml
   cluster-payload/vault/
     kustomization.yaml   # référence base + patches
-    ingress.yaml         # Ingress nginx → vault:8200
 ```
+
+---
+
+## Vault Secrets Operator (VSO)
+
+Le VSO synchronise les secrets Vault vers des Kubernetes Secrets automatiquement.
+
+### Composants déployés par FluxCD
+
+```
+infrastructure/
+  base/vso/                          # HelmRelease VSO
+  cluster-payload/vso/               # VaultConnection + VaultAuth VSO (namespace system)
+  cluster-payload/vso-config/        # VaultConnection + VaultAuth pour les apps
+```
+
+### VaultConnection (commune à tout le cluster)
+
+Définie dans `infrastructure/cluster-payload/vso-config/vault-connection.yaml` :
+
+```yaml
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultConnection
+metadata:
+  name: vault-connection
+  namespace: vault-secrets-operator-system
+spec:
+  address: https://vault.homelab.local
+  skipTLSVerify: true
+```
+
+### Flow complet pour synchroniser un secret
+
+```
+Vault KV                    VSO                        Kubernetes
+kv/warap/staging/           VaultStaticSecret    →     Secret postgres-credentials
+  clusterpayload/warap/     (namespace: warap)          (namespace: warap)
+  postgres-credentials
+```
+
+1. Stocker le secret dans Vault (voir `staging/vault-homelab/README.md`)
+2. Créer une `VaultAuth` dans le namespace applicatif
+3. Créer une `VaultStaticSecret` → VSO crée le Kubernetes Secret
+
+Voir `datacenter-rancher-configuration/staging/vault-homelab/README.md` pour le détail complet.

@@ -39,5 +39,4 @@ spec:
           size: 1Gi
         trivy:
           size: 5Gi
-    harborAdminPassword: "Harbor12345"
-    secretKey: "not-a-secure-key"
+    # harborAdminPassword et secretKey injectés via VaultStaticSecret (harbor-secret)

@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
   - ../../base/harbor
   - httproute.yaml
+  - vault-secrets.yaml
+patchesStrategicMerge:
+  - harbor-values-patch.yaml

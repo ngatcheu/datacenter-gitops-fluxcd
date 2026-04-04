@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor
+  namespace: harbor
+spec:
+  valuesFrom:
+    - kind: Secret
+      name: harbor-secret
+      valuesKey: harborAdminPassword
+      targetPath: harborAdminPassword
+    - kind: Secret
+      name: harbor-secret
+      valuesKey: secretKey
+      targetPath: secretKey
+  values:
+    harborAdminPassword: null
+    secretKey: null
